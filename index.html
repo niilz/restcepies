@@ -37,9 +37,8 @@
     <script>
         
         let zutat = document.querySelector(".select").value
-        let url = 'https://api.edamam.com/search?q=chicken&app_id=b13c3d41&app_key=67291c9614b42e3bae96db49fea1c60c'
-        let baseUrlR = "http://food2fork.com/api/search?key=7679f2d15d47aaf5f5bba166efab8c7c&"
-        let baseUrlZ = "http://food2fork.com/api/get?key=7679f2d15d47aaf5f5bba166efab8c7c&"
+        let baseUrlR = "http://food2fork.com/api/search?key=APIKEY"
+        let baseUrlZ = "http://food2fork.com/api/get?key=APIKEY"
 //Test Text für Git
         let fetchRezepte = fetch(baseUrlR + "q=shredded%20chicken",{
             method: "GET",
