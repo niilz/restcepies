@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Rezepte macher</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+</head>
+<body>
+    <header>
+        <h1>Rezeptmaker</h1>
+        <nav class="nav">
+            <ul>
+                <li>home</li>
+                <li>about</li>
+                <li>log in</li>
+            </ul>
+        </nav>
+    </header>
+
+    <div>
+        <form class="form">
+            <select class="select" name="einkaufsliste" form="einkaufsform">
+                <option value="tomaten">Tomaten</option>
+                <option value="salat">Salat</option>
+                <option value="fleisch">Fleisch</option>
+                <option value="fisch">Fisch</option>
+            </select>
+            <button class="button">Gib Rezept</button>
+        </form>
+    </div>
+
+    <section class="view">
+
+    </section>
+    
+    <script>
+        
+        let zutat = document.querySelector(".select").value
+        let url = 'https://api.edamam.com/search?q=chicken&app_id=b13c3d41&app_key=67291c9614b42e3bae96db49fea1c60c'
+        let baseUrlR = "http://food2fork.com/api/search?key=7679f2d15d47aaf5f5bba166efab8c7c&"
+        let baseUrlZ = "http://food2fork.com/api/get?key=7679f2d15d47aaf5f5bba166efab8c7c&"
+//Test Text für Git
+        let fetchRezepte = fetch(baseUrlR + "q=shredded%20chicken",{
+            method: "GET",
+            mode: "cors",
+            })
+            .then(response => response.json())
+            .then(json => json.recipes.map(num => [num.recipe_id, num.title]))
+            .then(pair => pair.forEach(r => fetchZutaten(r[0])))
+            //.then(el => console.log(el))
+            .catch(err => console.log(err))
+        
+        function fetchZutaten(id) {
+            let url = baseUrlZ + "rId=" + id.toString()
+            fetch(url,{
+            method: "GET",
+            mode: "cors",
+            })
+            .then(response => response.json())
+            .then(json => json.recipe)
+            .then(recipe => console.log(recipe.image_url, recipe.ingredients))
+            .catch(err => console.log(err))
+        }
+
+        // function display(rezept) => {
+        //     for()
+        //     let view = document.querySelector(".view")
+        //     let para = document.createElement("p")
+        //     let text = document.createTextNode(t)
+        //     para.appendChild(text)
+        //     view.appendChild(para)
+        // }  
+
+
+        //let button = document.querySelector(".button").addEventListener("click", display)
+
+    </script>
+</body>
+</html>
