@@ -37,21 +37,24 @@
     <script>
         
         let zutat = document.querySelector(".select").value
-        let baseUrlR = "http://food2fork.com/api/search?key=APIKEY"
-        let baseUrlZ = "http://food2fork.com/api/get?key=APIKEY"
-//Test Text für Git
-        let fetchRezepte = fetch(baseUrlR + "q=shredded%20chicken",{
+        let baseUrlR = "http://food2fork.com/api/search?key="
+        let baseUrlZ = "http://food2fork.com/api/get?key="
+
+        let apiKey = jsonfile => fetch(jsonfile)
+            .then(res => res.json())
+            .then(json => (json[0].apiKey))
+
+        let fetchRezepte = apiKey => fetch(baseUrlR + apiKey + "q=shredded%20chicken",{
             method: "GET",
             mode: "cors",
             })
             .then(response => response.json())
             .then(json => json.recipes.map(num => [num.recipe_id, num.title]))
-            .then(pair => pair.forEach(r => fetchZutaten(r[0])))
-            //.then(el => console.log(el))
+            .then(pair => pair.forEach(r => fetchZutaten(r[0], apiKey)))
             .catch(err => console.log(err))
         
-        function fetchZutaten(id) {
-            let url = baseUrlZ + "rId=" + id.toString()
+        let fetchZutaten = (id, apiKey) => {
+            let url = baseUrlZ + apiKey + "rId=" + id.toString()
             fetch(url,{
             method: "GET",
             mode: "cors",
@@ -61,6 +64,10 @@
             .then(recipe => console.log(recipe.image_url, recipe.ingredients))
             .catch(err => console.log(err))
         }
+
+        apiKey("config.json")
+        .then(key => fetchRezepte(key))
+        
 
         // function display(rezept) => {
         //     for()
@@ -73,7 +80,7 @@
 
 
         //let button = document.querySelector(".button").addEventListener("click", display)
-
+   
     </script>
 </body>
 </html>
