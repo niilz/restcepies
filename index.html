@@ -44,39 +44,51 @@
             .then(res => res.json())
             .then(json => (json[0].apiKey))
 
-        let fetchRezepte = apiKey => fetch(baseUrlR + apiKey + "q=shredded%20chicken",{
+        let fetchRezepte = () => apiKey("config.json")
+            .then(key => fetch(baseUrlR + key + "q=shredded%20chicken",{
             method: "GET",
             mode: "cors",
-            })
+            }))
             .then(response => response.json())
             .then(json => json.recipes.map(num => [num.recipe_id, num.title]))
-            .then(pair => pair.forEach(r => fetchZutaten(r[0], apiKey)))
-            .catch(err => console.log(err))
+            
         
-        let fetchZutaten = (id, apiKey) => {
-            let url = baseUrlZ + apiKey + "rId=" + id.toString()
-            fetch(url,{
+        let fetchZutaten = (idTitleArrays) => {
+            let recTriplets = {}
+            apiKey("config.json")
+            .then(key => idTitleArrays.forEach((iTArray, i) => fetch(baseUrlZ + key + "rId=" + iTArray[0],{
             method: "GET",
             mode: "cors",
             })
             .then(response => response.json())
             .then(json => json.recipe)
-            .then(recipe => console.log(recipe.image_url, recipe.ingredients))
-            .catch(err => console.log(err))
+            .then(recipe => {
+                recTriplets[i] = {}
+                recTriplets[i].name = iTArray[1]
+                recTriplets[i].img = recipe.image_url
+                recTriplets[i].ingredients = recipe.ingredients
+                })
+            ))
+            return recTriplets
         }
 
-        apiKey("config.json")
-        .then(key => fetchRezepte(key))
-        
+        let display = selection => {
+            Object.keys(selection).forEach(triplet => {
+                console.log(triplet.name)
+                let view = document.querySelector(".view")
+                let para = document.createElement("p")
+                let text = document.createTextNode(triplet.name)
+                para.appendChild(text)
+                view.appendChild(para)
+            })
+        }  
 
-        // function display(rezept) => {
-        //     for()
-        //     let view = document.querySelector(".view")
-        //     let para = document.createElement("p")
-        //     let text = document.createTextNode(t)
-        //     para.appendChild(text)
-        //     view.appendChild(para)
-        // }  
+        fetchRezepte()
+        .then(arrays => fetchZutaten(arrays))
+        .then(triplets => console.log(triplets))
+      
+        
+  
 
 
         //let button = document.querySelector(".button").addEventListener("click", display)
