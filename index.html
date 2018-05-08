@@ -74,10 +74,9 @@
 
         let display = selection => {
             Object.keys(selection).forEach(triplet => {
-                console.log(triplet.name)
                 let view = document.querySelector(".view")
                 let para = document.createElement("p")
-                let text = document.createTextNode(triplet.name)
+                let text = document.createTextNode(selection[triplet].name)
                 para.appendChild(text)
                 view.appendChild(para)
             })
