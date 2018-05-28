@@ -2,13 +2,13 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>Rezepte macher</title>
+    <title>restcepies</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
 </head>
 <body>
     <header>
-        <h1>Rezeptmaker</h1>
+        <h1>Rezeptreste</h1>
         <nav class="nav">
             <ul>
                 <li>home</li>
@@ -20,11 +20,21 @@
 
     <div>
         <form class="form">
-            <select class="select" name="einkaufsliste" form="einkaufsform">
-                <option value="tomaten">Tomaten</option>
-                <option value="salat">Salat</option>
-                <option value="fleisch">Fleisch</option>
-                <option value="fisch">Fisch</option>
+            <select multiple class="select" name="gemuese">
+                <optgroup label="Gem&uuml;se">
+                    <option value="tomaten">Tomaten</option>
+                    <option value="salat">Salat</option>
+                    <option value="bohnen">Bohnen</option>
+                    <option value="paprika">Paprika</option>
+                </optgroup>
+            </select>
+            <select multiple class="select" name="einkaufsliste">
+                <optgroup label="Eiweiß">
+                    <option value="rind">Rind</option>
+                    <option value="huhn">H&uuml;hnchen</option>
+                    <option value="fisch">Fisch</option>
+                    <option value="soja">Soja</option>
+                </optgroup>
             </select>
             <button class="button">Gib Rezept</button>
         </form>
