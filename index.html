@@ -74,48 +74,48 @@
 
 
         //api section
-        let apiKey = jsonfile => fetch(jsonfile)
-            .then(res => res.json())
-            .then(json => (json[0].apiKey))
+        // let apiKey = jsonfile => fetch(jsonfile)
+        //     .then(res => res.json())
+        //     .then(json => (json[0].apiKey))
         
-        let fetchRezepte = () => apiKey("config.json")
-            .then(key => fetch(baseUrlR + key + "q=shredded%20chicken",{
-            method: "GET",
-            mode: "cors",
-            }))
-            .then(response => response.json())
-            .then(json => json.recipes.map(num => [num.recipe_id, num.title]))
+        // let fetchRezepte = () => apiKey("config.json")
+        //     .then(key => fetch(baseUrlR + key + "q=shredded%20chicken",{
+        //     method: "GET",
+        //     mode: "cors",
+        //     }))
+        //     .then(response => response.json())
+        //     .then(json => json.recipes.map(num => [num.recipe_id, num.title]))
             
         
-        let fetchZutaten = (idTitleArrays) => {
-            let recTriplets = {}
-            apiKey("config.json")
-            .then(key => idTitleArrays.forEach((iTArray, i) => fetch(baseUrlZ + key + "rId=" + iTArray[0],{
-            method: "GET",
-            mode: "cors",
-            })
-            .then(response => response.json())
-            .then(json => json.recipe)
-            .then(recipe => {
-                recTriplets[i] = {}
-                recTriplets[i].name = iTArray[1]
-                recTriplets[i].img = recipe.image_url
-                recTriplets[i].ingredients = recipe.ingredients
-                })
-            ))
-            return recTriplets
-        }
+        // let fetchZutaten = (idTitleArrays) => {
+        //     let recTriplets = {}
+        //     apiKey("config.json")
+        //     .then(key => idTitleArrays.forEach((iTArray, i) => fetch(baseUrlZ + key + "rId=" + iTArray[0],{
+        //     method: "GET",
+        //     mode: "cors",
+        //     })
+        //     .then(response => response.json())
+        //     .then(json => json.recipe)
+        //     .then(recipe => {
+        //         recTriplets[i] = {}
+        //         recTriplets[i].name = iTArray[1]
+        //         recTriplets[i].img = recipe.image_url
+        //         recTriplets[i].ingredients = recipe.ingredients
+        //         })
+        //     ))
+        //     return recTriplets
+        // }
 
-        let display = selection => {
-            Object.keys(selection).forEach(triplet => {
-                console.log(triplet.name)
-                let view = document.querySelector(".view")
-                let para = document.createElement("p")
-                let text = document.createTextNode(triplet.name)
-                para.appendChild(text)
-                view.appendChild(para)
-            })
-        }  
+        // let display = selection => {
+        //     Object.keys(selection).forEach(triplet => {
+        //         console.log(triplet.name)
+        //         let view = document.querySelector(".view")
+        //         let para = document.createElement("p")
+        //         let text = document.createTextNode(triplet.name)
+        //         para.appendChild(text)
+        //         view.appendChild(para)
+        //     })
+        // }  
 
         // fetchRezepte()
         // .then(arrays => fetchZutaten(arrays))
