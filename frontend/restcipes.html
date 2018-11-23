@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>RESTcipes</title>
+</head>
+<body>
+    <form>
+        <h1>Ingredients</h1>
+        <div id="ingredients">
+            <input type="text" class="ingredient" placeholder="Zutat">
+        </div>
+            <button id="add_field">+</button>
+            <button id="submit_button" type="submit">Zeige Rezepte</button>
+        
+        <div id="results_box">
+            <h1>Vorschl&auml;ge</h1>
+            <ul id="results"></ul>
+        </div>
+    </form>
+
+    <script>
+        let ingredients = document.getElementById('ingredients');
+        let addButton = document.getElementById('add_field');
+        let submitButton = document.getElementById('submit_button')
+        let baseURL = "http://localhost:5000/"
+        let results = document.getElementById('results');
+        
+
+        // Add Eventlisteners
+        submitButton.addEventListener('click', getRESTcipes);
+        addButton.addEventListener('click', addField)
+
+        function getRESTcipes(e) {
+            e.preventDefault();
+            let url = baseURL + '?'
+            let items = document.querySelectorAll('.ingredient');
+            items.forEach((item, i) => url += `\&${i}=${item.value}`);
+            fetch(url)
+                .then(data => data.json())
+                .then(recipes => display(recipes))
+        }
+        
+        // displays the results (gets called by getRESTcipes)
+        function display(recipeObj) {
+            Object.values(recipeObj).forEach(recipe => {
+                let listItem = document.createElement('li');
+                listItem.textContent = recipe;
+                results.appendChild(listItem);
+            });
+        }
+
+        // function that adds a new ingredient-field
+        // invoked by pressing "+" button
+        function addField(e) {
+            e.preventDefault();
+            let field = document.createElement('input');
+            field.type = "text";
+            field.placeholder = "Zutat";
+            field.classList.add("ingredient")
+            ingredients.appendChild(field);
+        }
+
+    </script>
+</body>
+</html>
